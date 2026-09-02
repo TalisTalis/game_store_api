@@ -10,6 +10,11 @@ services:
       - "5432:5432"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d gamestore"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   app:
     build: .
@@ -18,4 +23,5 @@ services:
     volumes:
       - ./:/var/www/html
     depends_on:
-      - db
+      db:
+        condition: service_healthy
