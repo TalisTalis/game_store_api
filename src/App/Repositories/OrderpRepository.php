@@ -84,4 +84,6 @@ class OrderRepository
             'key' => $key
         ]);
     }
+
+    public function getDb(): \PDO { return $this->db; }
 }
